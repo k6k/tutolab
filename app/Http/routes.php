@@ -14,28 +14,19 @@
 //Route::get('/hello/{name}', 'WelcomeController@index');
 Route::get('/', 'WelcomeController@index');
 
-Route::get('home', 'HomeController@index');
+/*Route::get('link/create/','linksController@create');
+Route::get('r/{id}','linksController@show')->where('id','[0-9]+');
+Route::post('link/create/','linksController@store');*/
+
+Route::resource('link','linksController',['only'=>['create','store']]);//Structure Rest
+Route::get('r/{link}',['as' =>'link.show','uses'=>'linksController@show'])->where('link','[0-9]+');
 
 
-//Toutes les routes préfixées par admin/
-Route::group(['prefix'=>'admin','middleware'=>'ip'],function(){
-	Route::get('flo',function(){
-	return 'Salut Flo';
-	});
-});
-
-//Route::get('a-propos','PagesController@about');
-Route::get('a-propos',['as' =>'about','uses'=>'PagesController@about']);
-
-Route::get('salut/{slug}-{id}',['as'=>'salut',function($slug,$id){
-		//return "Lien : /salut/$slug-$id";
-		return "Lien : ".route('salut',['slug'=>$slug,'id'=>$id]);
-}])->where('slug','[a-z0-9\-]+')->where('id','[0-9]+');
 
 Route::controller('welcome','WelcomeController');
 
-/*Route::controllers([
+Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
-]);*/
+]);/**/
 
